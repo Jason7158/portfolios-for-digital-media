@@ -1,21 +1,37 @@
 {
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "main": "electron/main.js",
+  "author": "JasonHoo",
+  "name": "portfolios",
+  "productName": "portfolios",
+  "description": "portfolios",
   "scripts": {
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs",
     "lint:fix": "eslint . --fix",
-    "dev:overall": "cross-env NODE_ENV=development concurrently \"vitepress dev docs\" \"electron electron/main.js\"",
-    "dev:build": "cross-env NODE_ENV=production vitepress dev docs && electron electron/main.js"
+    "et:dev:development": "cross-env NODE_ENV=development concurrently \"vitepress dev docs\" \"electron electron/main.js\"",
+    "et:dev:production": "cross-env NODE_ENV=production concurrently \"vitepress dev docs\" \"electron electron/main.js\"",
+    "et:build": "vitepress build docs && electron-forge make",
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make"
   },
   "dependencies": {
     "date-fns": "^2.29.3",
+    "electron-squirrel-startup": "^1.0.0",
     "gray-matter": "^4.0.3",
     "unocss": "^0.51.4",
     "vue": "^3.2.47"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.38.5",
+    "@electron-forge/cli": "^7.2.0",
+    "@electron-forge/maker-deb": "^7.2.0",
+    "@electron-forge/maker-rpm": "^7.2.0",
+    "@electron-forge/maker-squirrel": "^7.2.0",
+    "@electron-forge/maker-zip": "^7.2.0",
+    "@electron-forge/plugin-auto-unpack-natives": "^7.2.0",
     "@iconify/json": "^2.2.51",
     "@types/node": "^18.15.11",
     "concurrently": "^8.2.2",
