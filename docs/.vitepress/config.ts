@@ -1,6 +1,11 @@
+import path from 'node:path'
 import UnoCSS from 'unocss/vite'
 import { defineConfig } from 'vitepress'
 import { visualizer } from 'rollup-plugin-visualizer'
+
+import AutoImport from 'unplugin-auto-import/vite'
+import Components from 'unplugin-vue-components/vite'
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 
 export default defineConfig({
   base: '/portfolio/',
@@ -37,7 +42,18 @@ export default defineConfig({
     },
   } as any,
   vite: {
+    resolve: {
+      alias: {
+        '@': path.resolve(__dirname, '../'),
+      },
+    },
     plugins: [
+      AutoImport({
+        resolvers: [ElementPlusResolver()],
+      }),
+      Components({
+        resolvers: [ElementPlusResolver()],
+      }),
       UnoCSS(),
       visualizer({
         open: true,
