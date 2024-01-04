@@ -51,7 +51,7 @@ onMounted(() => {
     />
     <!-- max width 1920px -->
     <div
-      ref="pageWrapper" class="absolute bg-blue-5" :class="{
+      ref="pageWrapper" class="absolute" :class="{
         'h-full': !fullScreen,
         'w-full': !fullScreen,
         'left-0': !fullScreen,

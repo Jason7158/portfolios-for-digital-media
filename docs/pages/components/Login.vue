@@ -246,7 +246,7 @@ export default {
 </script>
 
 <template>
-  <div class="h-1080px w-1920px relative overflow-hidden bg-blue-3 transform-origin-tl">
+  <div class="h-1080px w-1920px relative overflow-hidden transform-origin-tl">
     <div class="content absolute z-10 ">
       <div class=" align-middle inline-block w-6/12">
         <div class="text-center">
@@ -254,7 +254,7 @@ export default {
         </div>
       </div>
       <div class="align-middle inline-flex justify-around flex-col items-center w-6/12 h-full pr-12">
-        <div class="mt6 text-center font-extrabold text-size-2xl">
+        <div class=" text-center font-extrabold text-size-2xl">
           Online Cargo Insurance
         </div>
         <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="0px" class="loginForm w-80%">
@@ -382,22 +382,7 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-:deep() {
-
-}
-.wave1 {
-  position: absolute;
-  width: 20%;
-  height: 33%;
-}
-
-.wave2 {
-  position: absolute;
-  width: 300px;
-  height: 300px;
-  right: -300px;
-  bottom: -750px;
-}
+:deep() {}
 
 .wave {
   position: relative;
@@ -430,6 +415,22 @@ export default {
   }
 }
 
+.wave1 {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  top: 0%;
+  left: 0%;
+}
+
+.wave2 {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  right: -15%;
+  bottom: -85%;
+}
+
 @keyframes rotate {
   0% {
     transform: translate(-50%, 0) rotateZ(0deg);
@@ -445,11 +446,6 @@ export default {
 }
 
 /*动态波浪end*/
-.dashang {
-  width: 50%;
-  margin-left: -31px;
-  margin-top: -120px;
-}
 
 .content {
   width: 50%;
