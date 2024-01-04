@@ -1,6 +1,6 @@
 import DefaultTheme from 'vitepress/theme'
 import type { App } from 'vue'
-import 'uno.css'
+import 'virtual:uno.css'
 
 import Feature from './components/uno/Feature.vue'
 import Posts from './components/blog/Posts.vue'

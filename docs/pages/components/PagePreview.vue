@@ -17,11 +17,13 @@ const fullScreen = ref(false)
 const pageWrapper = ref(null)
 
 onMounted(() => {
+  const el = pageWrapper.value.children[0]
   const ob = new ResizeObserver((entries) => {
-    console.log(entries)
+    const { width, height } = entries[0].contentRect
+    const rate = width / el.clientWidth
+    el.style.transform = `scale(${rate})`
   })
   ob.observe(pageWrapper.value)
-  console.log(pageWrapper)
 })
 </script>
 
@@ -49,8 +51,7 @@ onMounted(() => {
     />
     <!-- max width 1920px -->
     <div
-      ref="pageWrapper"
-      class="absolute bg-blue-5" :class="{
+      ref="pageWrapper" class="absolute bg-blue-5" :class="{
         'h-full': !fullScreen,
         'w-full': !fullScreen,
         'left-0': !fullScreen,

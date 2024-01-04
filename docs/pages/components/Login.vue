@@ -7,10 +7,6 @@ export default {
   components: { ValidCode },
   data() {
     return {
-      boundary: {
-        width: 0,
-        height: 0,
-      },
       second: 3,
       resetPwdStep: 0,
       restType: '0',
@@ -71,13 +67,6 @@ export default {
     }
   },
   mounted() {
-    const ob = new ResizeObserver((entries) => {
-      const { width, height } = entries[0].contentRect
-      this.boundary = { width: `${width}px`, height: `${height}px` }
-    })
-    ob.observe(this.$refs.c)
-    // 初始化验证码
-    this.identifyCode = ''
     this.makeCode(this.identifyCodes, 4)
   },
   methods: {
@@ -257,18 +246,18 @@ export default {
 </script>
 
 <template>
-  <div ref="c" class="h-full relative overflow-hidden bg-white login-wrapper">
+  <div class="h-1080px w-1920px relative overflow-hidden bg-blue-3 transform-origin-tl">
     <div class="content absolute z-10 ">
       <div class=" align-middle inline-block w-6/12">
         <div class="text-center">
           <el-image :src="loginImg.chaHua" class="w-4/5" />
         </div>
       </div>
-      <div class="inline-block align-middle w-6/12 h-full pr-12">
-        <div class="my-2 text-center font-extrabold text-size-[calc(var(--width)*0.01)]">
+      <div class="align-middle inline-flex justify-around flex-col items-center w-6/12 h-full pr-12">
+        <div class="mt6 text-center font-extrabold text-size-2xl">
           Online Cargo Insurance
         </div>
-        <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="0px" class="loginForm">
+        <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="0px" class="loginForm w-80%">
           <el-form-item prop="passname">
             <el-input v-model="ruleForm.passname" type="passname" clearable autocomplete="off" placeholder="Account" />
           </el-form-item>
@@ -277,11 +266,11 @@ export default {
           </el-form-item>
           <el-form-item prop="verifycode" class="verifi">
             <el-input
-              v-model="ruleForm.verifycode" clearable placeholder="Verification Code" class="float-left w-4/6"
+              v-model="ruleForm.verifycode" clearable placeholder="Verification Code" class="float-left !w-5/6"
               @keyup.enter="submitForm()"
             />
             <div
-              class="border border-solid overflow-hidden border-gray-chuansuo rounded float-right cursor-pointer verificode"
+              class="border border-solid  overflow-hidden border-gray-3 rounded float-right cursor-pointer verificode ml-1 flex-1 h-32px"
               @click="refreshCode()"
             >
               <ValidCode :identify-code="identifyCode">
@@ -393,16 +382,9 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-.login-wrapper {
-  --width: v-bind(boundary.width);
-}
+:deep() {
 
-:deep(.el-input) {
-  --el-font-size-base: calc(var(--width) * 0.01);
-  --el-input-height: calc(var(--width) * 0.02);
-  // font-size: calc(var(--width) * 0.01); // TODO set in 1080p
 }
-
 .wave1 {
   position: absolute;
   width: 20%;
@@ -477,11 +459,6 @@ export default {
   transform: translate(-50%, -50%);
   background: rgba(255, 255, 255, 0.9);
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1)
-}
-
-.verificode {
-  width: 30%;
-  height: 40px;
 }
 
 :deep(.el-step__head) {
