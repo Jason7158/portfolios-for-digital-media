@@ -1,5 +1,5 @@
 <script setup>
-import PagePreview from './components/PagePreview.vue'
+import PageShowcase from './components/PageShowcase.vue'
 import GenshinEye from './components/GenshinEye.vue'
 import Login from './components/Login.vue'
 
@@ -7,11 +7,11 @@ import Login from './components/Login.vue'
 # Some Pages
 
 ## Login Page With Animations
-<PagePreview>
+<PageShowcase>
   <Login />
-</PagePreview>
+</PageShowcase>
 
 ## Loading Page For Game [Genshin Impact](https://genshin.hoyoverse.com/)
-<PagePreview>
+<PageShowcase>
   <GenshinEye />
-</PagePreview>
+</PageShowcase>
