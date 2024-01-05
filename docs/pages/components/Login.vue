@@ -1,4 +1,5 @@
 <script>
+import { wait } from '@/utils/util'
 import ValidCode from '@/components/ValidCode.vue'
 import chaHua from '@/assets/imgs/chahua.png'
 
@@ -7,13 +8,13 @@ export default {
   components: { ValidCode },
   data() {
     return {
+      sendCode: 'Send code',
+      loading: false,
       second: 3,
       resetPwdStep: 0,
       restType: '0',
       dialogVisible: false,
-      sendCode: '获取验证码',
       getCode: '',
-      usertype: '', // 1 外部用户, 2 内部用户
       disabled: false,
       loginImg: {
         chaHua,
@@ -24,8 +25,8 @@ export default {
         verifycode: '',
       },
       rules: {
-        passname: [{ required: true, message: '请输入正确的用户名', trigger: 'blur' }],
-        password: [{ required: true, message: '请输入正确的密码', trigger: 'blur' }],
+        passname: [{ required: true, message: 'invalid account', trigger: 'blur' }],
+        password: [{ required: true, message: 'invalid password', trigger: 'blur' }],
         verifycode: [{ validator: this.checkVerifyCode, trigger: 'blur' }],
       },
       pwdForm1: {
@@ -35,17 +36,16 @@ export default {
         autoCode: '',
       },
       rules1: {
-        account: [{ required: true, message: '请输入正确的账号', trigger: 'blur' }],
+        account: [{ required: true, message: 'Please enter account', trigger: 'blur' }],
         phoneNumber: [
-          { required: true, message: '请输入手机号', trigger: 'blur' },
-          { validator: this.checkPhone, trigger: 'blur' },
+          { required: true, message: 'Please enter mobile phone number', trigger: 'blur' },
         ],
         email: [
-          { required: true, message: '请输入邮箱', trigger: 'blur' },
+          { required: true, message: 'Please enter e-mail', trigger: 'blur' },
           { validator: this.checkEmail, trigger: 'blur' },
         ],
         autoCode: [
-          { required: true, message: '请输入验证码', trigger: 'blur' },
+          { required: true, message: 'Please enter verification code', trigger: 'blur' },
           { validator: this.checkAutoCode, trigger: 'blur' },
         ],
       },
@@ -55,10 +55,10 @@ export default {
       },
       rules2: {
         password: [
-          { required: true, message: '请输入新密码', trigger: 'blur' },
+          { required: true, message: 'Please enter a new password', trigger: 'blur' },
         ],
         passwordCopy: [
-          { required: true, message: '请输入确认密码', trigger: 'blur' },
+          { required: true, message: 'Please enter password', trigger: 'blur' },
           { validator: this.checkPwdCopy, trigger: 'blur' },
         ],
       },
@@ -70,30 +70,22 @@ export default {
     this.makeCode(this.identifyCodes, 4)
   },
   methods: {
-    // 忘记密码-手机
-    checkPhone(rule, value, callback) {
-      const phone = /^[1][3,4,5,7,8][0-9]{9}$/
-      if (!phone.test(value))
-        callback(new Error('手机号不正确，请输入正确的手机号!'))
-      else
-        callback()
-    },
     checkEmail(rule, value, callback) {
       const email = /^([a-zA-Z0-9]+[_|.|-]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/
       if (!email.test(value))
-        callback(new Error('邮箱不正确,请输入正确的邮箱!'))
+        callback(new Error('Incorrect email format'))
       else
         callback()
     },
     checkAutoCode(rule, value, callback) {
       if (value !== this.pwdForm1.autoCode)
-        callback(new Error('验证码不正确，请重新输入!'))
+        callback(new Error('Incorrect verification code'))
       else
         callback()
     },
     checkPwdCopy(rule, value, callback) {
       if (value !== this.pwdForm2.password)
-        callback(new Error('两次密码不一致，请重新输入!'))
+        callback(new Error('Passwords do not match'))
       else
         callback()
     },
@@ -102,74 +94,36 @@ export default {
     },
     // 忘记密码-获取验证码
     async fetchAuthCode() {
-      const param = {
-        extno: this.pwdForm1.account,
-        mobile: this.pwdForm1.phoneNumber,
-        email: this.pwdForm1.email,
-        changepwdway: this.restType,
-      }
       try {
-        const data = await getVerifycode(param)
         this.disabled = true
         let nums = 60
-        let timer = null
-        timer = setInterval(() => {
+        const timer = setInterval(() => {
           if (nums === 0 && status !== 0) {
             clearInterval(timer)
             this.disabled = false
-            this.sendCode = '获取验证码'
+            this.sendCode = 'Send code'
           }
           else {
-            this.sendCode = `${nums}秒后重新获取`
+            this.sendCode = `${nums}s`
             nums--
           }
         }, 1000)
-        this.getCode = data.id
-        this.usertype = data.usertype
       }
       catch (e) {
+        console.error(e)
         this.$message.error(e.message)
       }
     },
     // 忘记密码提交
-    async resetPwd() {
+    async nextStep() {
       if (this.resetPwdStep === 0) {
         await this.$refs.pwdForm1.validate()
-        const query = {
-          extno: this.pwdForm1.account,
-          code: this.pwdForm1.autoCode,
-          id: this.getCode,
-        }
-        try {
-          await getCheckCode(query)
-          this.resetPwdStep = 1
-          return
-        }
-        catch (e) {
-          this.resetPwdStep = 0
-          this.$message.error(e.message)
-          throw e
-        }
+        this.resetPwdStep = 1
       }
-      if (this.resetPwdStep === 1) {
+      else if (this.resetPwdStep === 1) {
         await this.$refs.pwdForm2.validate()
-        const param = {
-          extno: this.pwdForm1.account,
-          code: this.pwdForm1.autoCode,
-          newpass: this.pwdForm2.password,
-          confirmpass: this.pwdForm2.passwordCopy,
-          id: this.getCode,
-        }
-        try {
-          await getForgetPwd(param)
-          this.resetPwdStep = 2
-          this.countDown()
-        }
-        catch (e) {
-          this.resetPwdStep = 1
-          this.$message.error(e.message)
-          throw e
-        }
+        this.countDown()
+        this.resetPwdStep = 2
       }
     },
     handleClose() {
@@ -193,10 +147,8 @@ export default {
 
     // 登录验证码
     checkVerifyCode(rule, value, callback) {
-      if (value === '')
-        callback(new Error('请输入验证码'))
-      else if (value.toLowerCase() !== this.identifyCode.toLowerCase())
-        callback(new Error('验证码不正确!'))
+      if (value.toLowerCase() !== this.identifyCode.toLowerCase())
+        callback(new Error('Incorrect verification code'))
       else
         callback()
     },
@@ -223,23 +175,9 @@ export default {
     },
     // 登录
     async submitForm() {
-      await this.$refs.ruleForm.validate()
-      const params = {
-        extno: this.isFloat(this.ruleForm.passname),
-        pwd: this.ruleForm.password,
-      }
-      try {
-        await this.$store.dispatch('user/login', params)
-        this.$message.success('登录成功！')
-        this.$router.replace({ path: '/home' })
-      }
-      catch (e) {
-        this.$message.error(e.message)
-        this.refreshCode()
-        this.ruleForm.password = ''
-        this.ruleForm.verifycode = ''
-        throw e
-      }
+      this.loading = true
+      await wait(1000)
+      this.loading = false
     },
   },
 }
@@ -254,10 +192,10 @@ export default {
         </div>
       </div>
       <div class="align-middle inline-flex justify-around flex-col items-center w-6/12 h-full pr-12">
-        <div class=" text-center font-extrabold text-size-2xl">
+        <div class=" text-center font-extrabold text-size-2xl mt-6">
           Online Cargo Insurance
         </div>
-        <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="0px" class="loginForm w-80%">
+        <el-form :model="ruleForm" :rules="rules" label-width="0px" class="loginForm w-80%">
           <el-form-item prop="passname">
             <el-input v-model="ruleForm.passname" type="passname" clearable autocomplete="off" placeholder="Account" />
           </el-form-item>
@@ -266,7 +204,7 @@ export default {
           </el-form-item>
           <el-form-item prop="verifycode" class="verifi">
             <el-input
-              v-model="ruleForm.verifycode" clearable placeholder="Verification Code" class="float-left !w-5/6"
+              v-model="ruleForm.verifycode" clearable placeholder="Verification Code" class="float-left !w-4.5/6"
               @keyup.enter="submitForm()"
             />
             <div
@@ -283,7 +221,7 @@ export default {
             @click="dialogVisible = true"
           >Forgot Password?</span>
           <el-form-item class="mt-4">
-            <el-button class="w-full" type="danger" @click="submitForm()">
+            <el-button class="w-full" type="danger" :loading="loading" @click="submitForm()">
               Login
             </el-button>
           </el-form-item>
@@ -291,42 +229,42 @@ export default {
       </div>
     </div>
     <el-dialog
-      v-model="dialogVisible" title="Reset Password" width="600px" class="mt-6" :show-close="true"
+      v-model="dialogVisible" title="Reset Password" width="900px" class="mt-6" :show-close="true"
       :before-close="handleClose"
     >
       <div class="mx-12" style="height:250px">
         <el-steps class="mb-4" :active="resetPwdStep" finish-status="success" simple>
-          <el-step title="验证身份" />
-          <el-step title="设置新密码" />
-          <el-step title="完成" />
+          <el-step title="Verify identity" />
+          <el-step title="Set a new password" />
+          <el-step title="Finish" />
         </el-steps>
 
-        <!--            step 1 -->
+        <!-- step 1 -->
         <el-form
-          v-show="resetPwdStep === 0" ref="pwdForm1" :model="pwdForm1" :rules="rules1" label-width="100px"
+          v-show="resetPwdStep === 0" ref="pwdForm1" :model="pwdForm1" :rules="rules1" label-width="200px"
           size="small"
         >
-          <el-form-item label="账号" prop="account">
-            <el-input v-model="pwdForm1.account" placeholder="输入账号" clearable />
+          <el-form-item label="Account" prop="account">
+            <el-input v-model="pwdForm1.account" clearable />
           </el-form-item>
-          <el-form-item label="密码重置方式" prop="resource">
+          <el-form-item label="Reset method" prop="resource">
             <el-radio-group v-model="restType" @change="group(restType)">
               <el-radio label="0">
-                通过短信
+                SMS
               </el-radio>
               <el-radio label="1">
-                通过邮箱
+                E-mail
               </el-radio>
             </el-radio-group>
           </el-form-item>
-          <el-form-item v-if="restType === '0'" label="手机号" prop="phoneNumber">
-            <el-input v-model="pwdForm1.phoneNumber" placeholder="输入手机号" clearable />
+          <el-form-item v-if="restType === '0'" label="Mobile phone number" prop="phoneNumber">
+            <el-input v-model="pwdForm1.phoneNumber" placeholder="" clearable />
           </el-form-item>
-          <el-form-item v-if="restType === '1'" label="邮箱" prop="email">
-            <el-input v-model="pwdForm1.email" placeholder="输入邮箱" clearable />
+          <el-form-item v-if="restType === '1'" label="E-mail" prop="email">
+            <el-input v-model="pwdForm1.email" placeholder="" clearable />
           </el-form-item>
-          <el-form-item label="验证码" prop="autoCode">
-            <el-input v-model="pwdForm1.autoCode" style="width: calc(100% - 130px)" clearable placeholder="输入验证码" />
+          <el-form-item label="Verification code" prop="autoCode">
+            <el-input v-model="pwdForm1.autoCode" style="width: calc(100% - 130px)" clearable />
             <el-button class="min-w-form-nav ml-2" size="small" round :disabled="disabled" @click="fetchAuthCode">
               {{ sendCode }}
             </el-button>
@@ -334,43 +272,50 @@ export default {
         </el-form>
         <!-- step 2 -->
         <el-form
-          v-show="resetPwdStep === 1" ref="pwdForm2" :model="pwdForm2" :rules="rules2" label-width="100px"
+          v-show="resetPwdStep === 1" ref="pwdForm2" :model="pwdForm2" :rules="rules2" label-width="200px"
           size="small"
         >
-          <el-form-item label="账号">
+          <el-form-item label="Account">
             <el-input v-model="pwdForm1.account" disabled clearable />
           </el-form-item>
           <el-form-item prop="password">
             <template #label>
-              <span>新密码</span>
+              <span>New password</span>
               <el-tooltip effect="dark" content="Top Center 提示文字" placement="top">
                 <template #content>
                   <div>
-                    <p>1、密码长度8位及以上</p>
-                    <p>2、大写字母、小写字母、数字及特殊字符, 选3种组合形式</p>
+                    <p>1. Password length 8 characters and above.</p>
+                    <p>
+                      2. Uppercase letters, lowercase letters, numbers, and special characters, choose 3 combination
+                      forms
+                    </p>
                   </div>
                 </template>
                 <i class="ml-1 el-icon-warning-outline cursor-pointer" />
               </el-tooltip>
             </template>
-            <el-input v-model="pwdForm2.password" placeholder="输新密码" clearable />
+            <el-input v-model="pwdForm2.password" type="password" clearable />
           </el-form-item>
-          <el-form-item label="确认密码" prop="passwordCopy">
-            <el-input v-model="pwdForm2.passwordCopy" placeholder="输入确认密码" clearable />
+          <el-form-item label="Confirm password" prop="passwordCopy">
+            <el-input v-model="pwdForm2.passwordCopy" type="password" clearable />
           </el-form-item>
         </el-form>
-        <!--            step 3 -->
+        <!-- step 3 -->
         <div v-show="resetPwdStep === 2" class="text-center pt-10">
           <i class="el-icon-success text-green-1 text-6xl" />
           <p class="text-lg">
-            新密码设置成功
+            The new password has been set successfully
           </p>
-          <p><span class="text-orange-500">{{ second }}</span><span class="text-gray-1">秒后，自动关闭弹窗</span></p>
+          <p>
+            <span class="text-gray-1">Close dialog after</span><span class="text-orange-500">{{ second }}</span><span
+              class="text-gray-1"
+            >Seconds</span>
+          </p>
         </div>
       </div>
       <template #footer>
         <div class="text-center">
-          <el-button class="min-w-button" size="mini" round type="primary" @click="resetPwd">
+          <el-button class="min-w-button" size="small" round type="primary" @click="nextStep">
             {{ resetPwdStep !== 2 ? 'Next' : 'Finish' }}
           </el-button>
         </div>
@@ -382,8 +327,6 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-:deep() {}
-
 .wave {
   position: relative;
   background-color: #fff;
@@ -461,20 +404,20 @@ export default {
   line-height: normal;
 }
 
-::v-deep.el-step.is-simple:not(:last-of-type) .el-step__title {
+:deep(.el-step.is-simple:not(:last-of-type) .el-step__title) {
   max-width: 55%;
 }
 
-::v-deep.el-step.is-simple .el-step__icon {
+:deep(.el-step.is-simple .el-step__icon) {
   width: 14px;
   height: 14px;
 }
 
-::v-deep.el-step.is-simple .el-step__title {
+:deep(.el-step.is-simple .el-step__title) {
   font-size: 14px;
 }
 
-::v-deep.el-button.is-disabled {
+:deep(.el-button.is-disabled) {
   color: #244AA9;
 }
 </style>

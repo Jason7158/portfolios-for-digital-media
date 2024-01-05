@@ -1,19 +1,7 @@
 <script setup lang='ts'>
 import { onMounted, ref } from 'vue'
 
-const rootElement = document.documentElement
-const aspectRatio = 16 / 9
 const fullScreen = ref(false)
-
-// watchEffect(() => {
-//   if (fullScreen.value) {
-//     const { width } = rootElement.getBoundingClientRect()
-//     if (width > 1920) {
-
-//     }
-//   }
-// })
-
 const pageWrapper = ref(null)
 
 onMounted(() => {
@@ -51,7 +39,7 @@ onMounted(() => {
     />
     <!-- max width 1920px -->
     <div
-      ref="pageWrapper" class="absolute" :class="{
+      ref="pageWrapper" class="absolute overflow-hidden" :class="{
         'h-full': !fullScreen,
         'w-full': !fullScreen,
         'left-0': !fullScreen,
