@@ -11,7 +11,7 @@ import Login from './components/Login.vue'
   <Login />
 </PagePreview>
 
-## Login Page With Animations
+## Loading Page For Game [Genshin Impact](https://genshin.hoyoverse.com/)
 <PagePreview>
   <GenshinEye />
 </PagePreview>

@@ -11,22 +11,17 @@ onMounted(() => {
   // 创建场景
   const scene = new THREE.Scene()
   // 创建相机
-  const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000)
+  const camera = new THREE.PerspectiveCamera(60, width / height, 0.1, 1000)
   // 设置相机高度
   camera.position.z = 5
   // 创建渲染器
   const renderer = new THREE.WebGLRenderer()
   // 设置渲染器大小
-  renderer.setSize(window.innerWidth, window.innerHeight)
+  renderer.setSize(width, height)
   // 设置背景颜色
   renderer.setClearColor(0xAAAAAA, 1)
   // 将渲染器加入html
   el.appendChild(renderer.domElement)
-
-  // 创建辅助轴模型
-  const axes = new THREE.AxesHelper(50)
-  // 将模型添加到场景
-  scene.add(axes)
 
   // 创建矩形模型
   const plane = new THREE.PlaneGeometry(117, 72)
@@ -134,7 +129,7 @@ onMounted(() => {
   const textMesh = new THREE.Mesh(textplane, textplaneMaterial)// 纹理贴图网格模型
   // 移动模型
   textMesh.translateX(1)
-  textMesh.translateY(-2.0)
+  textMesh.translateY(-2.5)
   textMesh.translateZ(-1)// 平移纹理贴图网格模型
   // 将模型添加到场景
   scene.add(textMesh)// 纹理贴图网格模型添加到场景中
@@ -291,16 +286,16 @@ onMounted(() => {
 
   // 鼠标移动事件
   function mouseEvent(e) {
-    camera.position.x = -(e.offsetX - window.innerWidth / 2) / 10000
-    camera.position.y = (e.offsetY - window.innerHeight / 2) / 4000
+    camera.position.x = -(e.offsetX - width / 2) / 10000
+    camera.position.y = (e.offsetY - height / 2) / 4000
     // 相机看向原点
     camera.lookAt(scene.position)
     // 鼠标在屏幕上的坐标
     const Sx = e.clientX
     const Sy = e.clientY
     // 屏幕坐标转标准设备坐标
-    const x = (Sx / window.innerWidth) * 2 - 1
-    const y = -(Sy / window.innerHeight) * 2 + 1
+    const x = (Sx / width) * 2 - 1
+    const y = -(Sy / height) * 2 + 1
     const standardVector = new THREE.Vector3(x, y, 0.5)
     // 标准设备坐标转三维坐标
     const worldVector = standardVector.unproject(camera)
