@@ -8,7 +8,7 @@ import PageShowcase from '../pages/components/PageShowcase.vue'
       <div>
         <slot name="left" />
       </div>
-      <div class="w1px h80% bg-gray-4" />
+      <div class="w1px h80% bg-gray-2 " />
       <div>
         <slot name="right" />
       </div>

@@ -5,4 +5,4 @@ import ProgressBarShowcase from './ProgressBarShowcase.vue'
 # Some Useful Vue Components
 
 ## Progress Bar
-<ProgressBarShowcase/>
+<ProgressBarShowcase />

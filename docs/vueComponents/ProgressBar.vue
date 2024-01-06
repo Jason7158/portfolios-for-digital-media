@@ -1,10 +1,9 @@
 <script>
 export class ProgressData {
   /**
-   *
    * @param {number} value 百分比 两位数
-   * @param {*} color 滚动条颜色
-   * @param {*} [content] 滚动条上文字
+   * @param {string} color 滚动条颜色
+   * @param {string} [content] 滚动条上文字
    */
   constructor(value, color, content) {
     this.value = value
@@ -57,7 +56,7 @@ export default {
 
 <template>
   <div
-    class="flex items-center min-h-6px bg-[#0E2E4D]" :style="{
+    class="flex items-center min-h-6px " :style="{
       'border-radius': `${strokeRadius}px`,
     }"
   >
