@@ -1,6 +1,6 @@
 <script>
 export default {
-  name: 'EquipmentPowerSupply',
+  name: 'PowerSwitch',
   props: {
     /** 开关prop
      * 顺序编号超大越靠右
@@ -61,7 +61,7 @@ export default {
 
 <template>
   <div>
-    <svg id="闭合" class="w-full" xmlns="http://www.w3.org/2000/svg" height="102.5" viewBox="0 0 1155 102.5">
+    <svg id="闭合" class="w-full" xmlns="http://www.w3.org/2000/svg" height="102.5" viewBox="0 0 200 102.5">
       <g id="组_4212" data-name="组 4212">
         <rect id="矩形_1244" data-name="矩形 1244" class="cls-1" x="32.5" y="37.5" width="104" height="45" />
         <ellipse id="椭圆_1246" data-name="椭圆 1246" class="cls-2" cx="313" cy="60.5" rx="14.5" ry="14" />
@@ -294,7 +294,7 @@ export default {
 .cls-10,
 .cls-9 {
   font-size: 16px;
-  fill: #fff;
+  fill: gray;
 }
 
 .cls-10 {
