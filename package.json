@@ -24,7 +24,7 @@
     "element-plus": "^2.4.4",
     "gray-matter": "^4.0.3",
     "three": "^0.160.0",
-    "unocss": "^0.51.4",
+    "unocss": "^0.58.3",
     "vue": "^3.2.47"
   },
   "devDependencies": {

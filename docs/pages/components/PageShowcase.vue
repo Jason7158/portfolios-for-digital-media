@@ -1,6 +1,9 @@
 <script setup lang='ts'>
 import { onMounted, ref } from 'vue'
 
+withDefaults(defineProps<{
+  operable: boolean
+}>(), { operable: true })
 const fullScreen = ref(false)
 const pageWrapper = ref(null)
 
@@ -30,7 +33,7 @@ onMounted(() => {
     }"
   >
     <i
-      v-if="!fullScreen" class="i-lucide-fullscreen inline-block absolute top-4 right-4 cursor-pointer z20"
+      v-if="operable && !fullScreen" class="i-lucide-fullscreen inline-block absolute top-4 right-4 cursor-pointer z20"
       @click="fullScreen = true"
     />
     <i

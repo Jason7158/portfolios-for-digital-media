@@ -11,7 +11,7 @@ import Login from './components/Login.vue'
   <Login />
 </PageShowcase>
 
-## Loading Page For Game [Genshin Impact](https://genshin.hoyoverse.com/)
+## Loading Page For Game [Genshin Impact](https://genshin.hoyoverse.com/) (Imitate)
 <PageShowcase>
   <GenshinEye />
 </PageShowcase>
