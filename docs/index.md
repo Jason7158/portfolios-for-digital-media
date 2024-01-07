@@ -4,7 +4,7 @@ layout: home
 
 hero:
   name: Portfolio
-  text: Jason Hoo's portfolio For MDM
+  text: Jason Hu's portfolio For MDM
   actions:
   - theme: alt
     text: Pages

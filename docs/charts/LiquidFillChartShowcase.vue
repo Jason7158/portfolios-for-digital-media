@@ -3,8 +3,6 @@ import * as echarts from 'echarts'
 import { onMounted, ref, watch } from 'vue'
 import ComponentShowcase from '../vueComponents/ComponentShowcase.vue'
 
-import 'echarts-liquidfill'
-
 let eIns
 const percentage = ref(22)
 function genOption() {
@@ -140,7 +138,8 @@ function render() {
   eIns.setOption(genOption())
 }
 
-onMounted(() => {
+onMounted(async () => {
+  await import('echarts-liquidfill')
   eIns = echarts.init(c.value)
   watch(() => percentage.value, (val) => {
     render()

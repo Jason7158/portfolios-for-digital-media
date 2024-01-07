@@ -57,27 +57,6 @@ export default {
       <span>{{ value }}</span>
     </div>
     <div ref="container" class="flex-1 relative border border-solid border-[#205DCF]" :style="{ width: barWidth }">
-      <!-- 右边值显示 -->
-      <div
-        v-if="contentPosition === 'right'" class="flex items-center absolute left-[110%]"
-        :style="{ bottom: `calc(${calculatedPercent * 100}% - 20px)` }"
-      >
-        <img src="@/assets/imgs/left-arrow.svg" alt="right" class="mr-4px">
-        <div class="data-box">
-          {{ (value || "-") + unitOfMeasurement }}
-        </div>
-      </div>
-      <!-- 左边值显示 -->
-      <div
-        v-if="contentPosition === 'left'" class="flex items-center absolute right-[110%]"
-        :style="{ bottom: `calc(${calculatedPercent * 100}% - 20px)` }"
-      >
-        <div class="data-box">
-          {{ (value || "-") + unitOfMeasurement }}
-        </div>
-        <img src="@/assets/imgs/left-arrow.svg" alt="left" class="ml-4px transform rotate-180">
-      </div>
-
       <div class="p-4px">
         <div
           v-for="i in elementNumber" :key="i" class="mb-[4px] last:mb-0 h-5px"

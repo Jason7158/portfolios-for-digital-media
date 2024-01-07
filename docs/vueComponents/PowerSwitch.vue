@@ -89,21 +89,21 @@ export default {
           transform="translate(-13.5 -11.5)"
         />
         <g id="组_4210" data-name="组 4210">
-          <g id="g_switch_1" v-tooltip="switch1Data" data-name="组 4181">
+          <g id="g_switch_1" data-name="组 4181">
             <path
               id="switch-1" data-name="形状 1300" class="cls-8" :class="{ noPower: switch1Data?.value === '0' }"
               d="M157,58.5h16"
             />
             <circle id="椭圆_1266_拷贝" data-name="椭圆 1266 拷贝" class="cls-6" cx="152.5" cy="59.5" r="4" />
           </g>
-          <g id="组_4181-2" v-tooltip="switch2Data" data-name="组 4181">
+          <g id="组_4181-2" data-name="组 4181">
             <path
               id="switch-2" data-name="形状 1300" :class="{ noPower: switch2Data?.value === '0' }" class="cls-8"
               d="M238.5,58.5h16"
             />
             <circle id="椭圆_1266_拷贝-2" data-name="椭圆 1266 拷贝" class="cls-6" cx="234.5" cy="59.5" r="4" />
           </g>
-          <g id="组_4181-3" v-tooltip="switch3Data" data-name="组 4181">
+          <g id="组_4181-3" data-name="组 4181">
             <path
               id="switch-3" data-name="形状 1300" :class="{ noPower: switch3Data?.value === '0' }" class="cls-8"
               d="M418.5,58.5h16"
@@ -112,7 +112,7 @@ export default {
           </g>
         </g>
       </g>
-      <g id="组_4213_拷贝" v-tooltip="switch7Data" data-name="组 4213 拷贝">
+      <g id="组_4213_拷贝" data-name="组 4213 拷贝">
         <path
           id="machine-4" data-name="形状 1282" :class="{ noPower: switch7Data?.value === '0' }" class="cls-7"
           d="M1129,93l-16,13h-27" transform="translate(-13.5 -11.5)"
@@ -127,7 +127,7 @@ export default {
           d="M1114.5,82.5l18-14"
         />
       </g>
-      <g id="组_4213" v-tooltip="switch6Data" data-name="组 4213">
+      <g id="组_4213" data-name="组 4213">
         <path
           id="machine-5" data-name="形状 1282" :class="{ noPower: switch6Data?.value === '0' }" class="cls-7"
           d="M988,93l-16,13H945" transform="translate(-13.5 -11.5)"
@@ -144,7 +144,7 @@ export default {
           />
         </g>
       </g>
-      <g id="组_4213_拷贝_3" v-tooltip="switch5Data" data-name="组 4213 拷贝 3">
+      <g id="组_4213_拷贝_3" data-name="组 4213 拷贝 3">
         <path
           id="machine-6" data-name="形状 1282" :class="{ noPower: switch5Data?.value === '0' }" class="cls-7"
           d="M848,93l-16,13H805" transform="translate(-13.5 -11.5)"
@@ -159,7 +159,7 @@ export default {
           d="M833.5,82.5l18-14"
         />
       </g>
-      <g id="组_4213_拷贝_2" v-tooltip="switch4Data" data-name="组 4213 拷贝 2">
+      <g id="组_4213_拷贝_2" data-name="组 4213 拷贝 2">
         <path
           id="machine-7" data-name="形状 1282" :class="{ noPower: switch4Data?.value === '0' }" class="cls-7"
           d="M707,93l-16,13H664" transform="translate(-13.5 -11.5)"

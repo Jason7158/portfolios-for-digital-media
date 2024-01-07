@@ -8,8 +8,9 @@ import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 
 export default defineConfig({
-  base: '/portfolio/',
-  description: 'Jason Hoo\'s portfolios for MDM',
+  title: 'Jason Hu\'s Portfolio',
+  base: '/',
+  description: 'Jason Hu\'s portfolios for MDM',
   markdown: {
     headers: {
       level: [0, 0],
@@ -20,28 +21,29 @@ export default defineConfig({
     search: {
       provider: 'local',
     },
-    footer: {
-      // message: 'VitePress Unocss Starter',
-      // copyright: 'Copyright © 2023 infinite-creatioin',
-    },
-    // socialLinks: [
-    //    { icon: 'github', link: 'https://github.com/infinite-creation/vitepress-unocss-starter' },
-    // ],
-    // nav: [
-    //   { text: 'Guide', link: '/guide/', activeMatch: '/guide/' },
-    //   { text: 'Configs', link: '/config/', activeMatch: '/config/' },
-    //   { text: 'Blog', link: '/blog/', activeMatch: '/blog/' },
-    // ],
-    sidebar: {
-      '/guide/': sidebarGuide(),
-      '/config/': sidebarConfig(),
-    },
+    socialLinks: [
+      { icon: 'github', link: 'https://github.com/Jason7158/portfolios-for-digital-media' },
+    ],
+    sidebar: [
+      {
+        text: 'Reference',
+        items: [
+          { text: 'Pages', link: '/pages/' },
+          { text: 'Vue Components', link: '/vueComponents/' },
+          { text: 'Charts', link: '/charts/' },
+          { text: 'Codes', link: '/codes/' },
+        ],
+      },
+    ],
     blog: {
       title: 'My Blog',
       description: 'Some articles for sample Blog',
     },
   } as any,
   vite: {
+    ssr: {
+      noExternal: ['element-plus'],
+    },
     resolve: {
       alias: {
         '@': path.resolve(__dirname, '../'),
@@ -66,36 +68,3 @@ export default defineConfig({
     ['link', { rel: 'icon', href: 'favicon.svg' }],
   ],
 })
-
-function sidebarGuide() {
-  return [
-    {
-      text: 'Introduction',
-      collapsible: true,
-      items: [
-        { text: 'What is this?', link: '/guide/' },
-      ],
-    },
-    {
-      text: 'Features',
-      collapsible: true,
-      items: [
-        { text: 'UnoCSS', link: '/guide/features/unocss' },
-        { text: 'Anu', link: '/guide/features/anu' },
-      ],
-    },
-  ]
-}
-
-function sidebarConfig() {
-  return [
-    {
-      text: 'Config',
-      items: [
-        { text: 'Introduction', link: '/config/' },
-        { text: 'UnoCSS', link: '/config/unocss' },
-        { text: 'Anu', link: '/config/anu' },
-      ],
-    },
-  ]
-}

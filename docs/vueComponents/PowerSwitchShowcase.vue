@@ -4,7 +4,7 @@ import ComponentShowcase from './ComponentShowcase.vue'
 import PowerSwitch from './PowerSwitch.vue'
 
 const isOpen = ref(true)
-const map = computed(() => isOpen.value ? '0' : '1')
+const map = computed(() => isOpen.value ? '1' : '0')
 </script>
 
 <template>

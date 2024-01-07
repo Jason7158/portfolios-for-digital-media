@@ -113,27 +113,6 @@ onMounted(() => {
   // 将模型添加到场景
   scene.add(arrowsMesh)
 
-  // 创建矩形模型
-  const textplane = new THREE.PlaneGeometry(9, 1.8)
-  // 创建基础材质
-  const textplaneMaterial = new THREE.MeshBasicMaterial()
-  // 创建纹理对象
-  const texttexture = new THREE.TextureLoader()
-  // 加载纹理图片 word
-  const text = textureloader.load('/img/4546fc0e-f6ac-4360-8bfd-626091a7f2e7.png')
-  // 将纹理叠加到材质上
-  textplaneMaterial.map = text
-  // png图片透明部分开启
-  textplaneMaterial.transparent = true
-  // 将材质叠加到模型上
-  const textMesh = new THREE.Mesh(textplane, textplaneMaterial)// 纹理贴图网格模型
-  // 移动模型
-  textMesh.translateX(1)
-  textMesh.translateY(-2.5)
-  textMesh.translateZ(-1)// 平移纹理贴图网格模型
-  // 将模型添加到场景
-  scene.add(textMesh)// 纹理贴图网格模型添加到场景中
-
   const lightplane = new THREE.PlaneGeometry(12, 60)
   const lightplaneMaterial = new THREE.MeshBasicMaterial()
   const lighttexture = new THREE.TextureLoader()
