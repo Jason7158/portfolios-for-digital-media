@@ -1,15 +1,18 @@
 <script setup lang='ts'>
+import { useSlots } from 'vue'
 import PageShowcase from '../pages/components/PageShowcase.vue'
+
+const slots = useSlots()
 </script>
 
 <template>
   <PageShowcase :operable="false">
-    <div class="wrapper">
+    <div class="h-full" :class="{ wrapper: slots.right }">
       <div>
         <slot name="left" />
       </div>
-      <div class="w1px h80% bg-gray-2 " />
-      <div>
+      <div v-if="slots.right" class="w1px h80% bg-gray-2 " />
+      <div v-if="slots.right">
         <slot name="right" />
       </div>
     </div>
