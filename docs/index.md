@@ -13,14 +13,13 @@ hero:
     text: Vue Components
     link: /vueComponents/
   - theme: alt
+    text: Charts
+    link: /charts/
+  - theme: alt
     text: Codes
     link: /codes/
   - theme: alt
-    text: Charts
-    link: /blog/
-  - theme: alt
     text: blog
     link: /blog/
-
 ---
 
