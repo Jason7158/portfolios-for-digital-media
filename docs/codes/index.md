@@ -1,26 +1,40 @@
 # Code Snippets in JavaScript
 
-## Tree Iterator
-
+## Tree Preorder and Postorder Traversal Function
+```typescript
+// file index.d.ts
+export interface PathObj {
+  [key: string]: string[]
+}
+```
 ```javascript
 /**
- * @param node tree onde Object
- * @param keyMap just like
- {
-    childrenKey: 'CHILD',
-    idKey: 'ID',
-    nameKey: 'NAME'
-    }
- * @param cb callBack function
- * @param pathFieldArr the nodeField need record to path
- * @param currPath type {
- *     pathKey: pathArray
- * }
+ * @typedef {object} KeyMap
+ * @property {string} [childrenKey=children]
+ * @property {string} [idKey=id]
+ * @property {string} nameKey
  */
-export function iterateTreeDeepFirst(node, keyMap, cb, pathFieldArr, currPath) {
+/**
+ * @typedef {object} PathObj
+ * @property {string} childrenKey
+ * @property {string} idKey
+ * @property {string} nameKey
+ */
+/**
+ * @callback CallBack
+ * @param {object} treeNode
+ */
+/**
+ * @param {object} node - tree node Object
+ * @param {KeyMap} keyMap
+ * @param {CallBack} cb - callBack function
+ * @param {string[]} pathFieldArr the nodeField need record to path
+ * @param {import(index).PathObj} currentPath 
+ */
+function iterateTreeDeepFirst(node, keyMap, cb, pathFieldArr, currentPath) {
   if (Array.isArray(node)) {
     node.forEach(item => {
-      iterateTreeDeepFirst(item, keyMap, cb, pathFieldArr, currPath);
+      iterateTreeDeepFirst(item, keyMap, cb, pathFieldArr, currentPath);
     });
   } else {
     keyMap = keyMap || {};
@@ -33,10 +47,9 @@ export function iterateTreeDeepFirst(node, keyMap, cb, pathFieldArr, currPath) {
     );
 
     if (node) {
-      // 处理path:Array
       if (pathFieldArr && pathFieldArr.length) {
-        if (currPath) {
-          node._tree_node_path = cloneDeep(currPath);
+        if (currentPath) {
+          node._tree_node_path = cloneDeep(currentPath);
         } else {
           node._tree_node_path || (node._tree_node_path = {});
         }
@@ -47,8 +60,8 @@ export function iterateTreeDeepFirst(node, keyMap, cb, pathFieldArr, currPath) {
         }
       }
 
-      if (cb && !cb.postorder) {
-        //先序
+      if (cb && !cb.preorder) {
+        // Preorder Traversal
         cb(node);
       }
 
@@ -67,6 +80,7 @@ export function iterateTreeDeepFirst(node, keyMap, cb, pathFieldArr, currPath) {
       }
 
       if (cb && cb.postorder) {
+        // Postorder Traversal
         cb(node);
       }
     }
@@ -74,7 +88,56 @@ export function iterateTreeDeepFirst(node, keyMap, cb, pathFieldArr, currPath) {
 }
 ```
 
-## 策略模式
+## Strategy Pattern in JavaScript
+
+```javascript
+// Define a family of algorithms
+
+class ConcreteStrategyA {
+  execute() {
+    return "Strategy A";
+  }
+}
+
+class ConcreteStrategyB {
+  execute() {
+    return "Strategy B";
+  }
+}
+
+class ConcreteStrategyC {
+  execute() {
+    return "Strategy C";
+  }
+}
+
+// Context class that uses a strategy
+
+class Context {
+  constructor(strategy) {
+    this.strategy = strategy;
+  }
+
+  setStrategy(strategy) {
+    this.strategy = strategy;
+  }
+
+  executeStrategy() {
+    return this.strategy.execute();
+  }
+}
+
+// Example usage
+
+const context = new Context(new ConcreteStrategyA());
+console.log(context.executeStrategy()); // Output: "Strategy A"
+
+context.setStrategy(new ConcreteStrategyB());
+console.log(context.executeStrategy()); // Output: "Strategy B"
+
+context.setStrategy(new ConcreteStrategyC());
+console.log(context.executeStrategy()); // Output: "Strategy C"
+```
 
 ## Front-end Package Deployment Script In Node.js
 ```javascript
@@ -88,10 +151,10 @@ spinner.start();
 client.scp(
   "./dist/",
   {
-    host: "172.24.1.171",
+    host: "172.24.1.171", // ip of the server
     port: "22",
     username: "root",
-    password: "Password01!",
+    password: "Password",
     path: "/path/to/dist",
   },
   (err) => {

@@ -18,8 +18,5 @@ hero:
   - theme: alt
     text: Codes
     link: /codes/
-  - theme: alt
-    text: blog
-    link: /blog/
 ---
 
