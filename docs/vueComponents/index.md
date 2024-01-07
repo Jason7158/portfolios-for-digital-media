@@ -2,6 +2,7 @@
 import ProgressBarShowcase from './ProgressBarShowcase.vue'
 import TimeSwitchShowcase from './TimeSwitchShowcase.vue'
 import PowerSwitchShowcase from './PowerSwitchShowcase.vue'
+import DashedHistogramShowcase from './DashedHistogramShowcase.vue'
   
 </script>
 # Some Useful Vue Components
@@ -14,3 +15,6 @@ import PowerSwitchShowcase from './PowerSwitchShowcase.vue'
 
 ## PowerSwitchShowcase
 <PowerSwitchShowcase />
+
+## DashedHistogram
+<DashedHistogramShowcase />

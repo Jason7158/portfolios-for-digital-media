@@ -52,11 +52,9 @@ export default {
   <div class="h-full flex flex-col items-center">
     <!-- 上边文字 -->
     <div
-      v-if="contentPosition === 'top'" class="text-white text-center rounded mb-2 p-1 px-1.8em value-wrapper" :style="{
-        background: `linear-gradient(transparent,${`${barColor}6f`})`,
-      }"
+      v-if="contentPosition === 'top'" class="text-black text-center rounded p-1 px-1.8em"
     >
-      <span>{{ value }}</span><span>{{ unitOfMeasurement }}</span>
+      <span>{{ value }}</span>
     </div>
     <div ref="container" class="flex-1 relative border border-solid border-[#205DCF]" :style="{ width: barWidth }">
       <!-- 右边值显示 -->
@@ -104,25 +102,5 @@ export default {
   border-left: 13px solid #409eff;
   border-top: 8px solid transparent;
   border-bottom: 8px solid transparent;
-}
-
-.value-wrapper {
-  position: relative;
-
-  &::after {
-    content: "";
-    @apply absolute right-0px top-0 w-0 h-0 block border-0 border-solid border-b-63px border-l-60px;
-    border-bottom-color: #030b21;
-    border-left-color: transparent;
-    border-right-color: transparent;
-  }
-
-  &::before {
-    content: "";
-    @apply absolute -left-30px top-0 w-0 h-0 block border-0 border-solid border-t-63px border-r-60px;
-    border-top-color: #030b21;
-    border-left-color: transparent;
-    border-right-color: transparent;
-  }
 }
 </style>
